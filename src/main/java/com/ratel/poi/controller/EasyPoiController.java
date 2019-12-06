@@ -2,7 +2,9 @@ package com.ratel.poi.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import com.ratel.poi.entity.CourseEntity;
 import com.ratel.poi.entity.StudentEntity;
+import com.ratel.poi.entity.TeacherEntity;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,10 @@ import java.util.Date;
 public class EasyPoiController {
 
 
+    /**
+     * 最基础的导出
+     * @param response
+     */
     @GetMapping("exportExcel")
     public  void  exportExcel(HttpServletResponse response){
         ArrayList<StudentEntity> studentEntities = new ArrayList<>();
@@ -37,7 +43,7 @@ public class EasyPoiController {
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("计算机一班学生","学生"), StudentEntity.class, studentEntities);
 
         try {
-            this.export(response, workbook, "商品信息");
+            this.export(response, workbook, "学生信息表");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,6 +51,36 @@ public class EasyPoiController {
     }
 
 
+    /**
+     * 导入一对多情况的excel表
+     * @param response
+     */
+    @GetMapping("exportExcelTwo")
+    public  void  exportExcelTwo(HttpServletResponse response){
+        ArrayList<StudentEntity> studentEntities = new ArrayList<>();
+        for (int i = 1; i <5 ; i++) {
+            StudentEntity studentEntity  =new StudentEntity("code"+i,"小明"+i,i,new Date(),new Date());
+            studentEntities.add(studentEntity);
+        }
+        ArrayList<CourseEntity> courseEntities = new ArrayList<>();
+        for (int i = 1; i <3 ; i++) {
+            CourseEntity courseEntity = new CourseEntity();
+             courseEntity.setId(String.valueOf(i));
+             courseEntity.setName("语文"+i);
+             courseEntity.setMathTeacher(new TeacherEntity(String.valueOf(i),"张三"+i));
+             courseEntity.setStudents(studentEntities);
+             courseEntities.add(courseEntity);
+        }
+
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("计算机一班学生","学生"), CourseEntity.class, courseEntities);
+
+        try {
+            this.export(response, workbook, "课程信息表");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * export导出请求头设置

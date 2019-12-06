@@ -1,2 +1,20 @@
 server:
   port: 8084
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bpms-test?serverTimezone=UTC
+    username: root
+    password: 123456
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration.map-underscore-to-camel-case: true
+  type-aliases-package: com.ratel.streaming.entity
+logging:
+  level:
+    com.ratel.streaming: debug
+
+

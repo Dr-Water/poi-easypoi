@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ratel.streaming.dao.CustomerDao">
+
+        <select id="selectById" resultType="com.ratel.streaming.entity.BpmsCustomerManageFormalEntity">
+            SELECT * FROM bpms_customer_manage_formal WHERE  id =#{id}
+
+        </select>
+    <select id="selectAll" resultType="com.ratel.streaming.entity.BpmsCustomerManageFormalEntity">
+        SELECT * FROM bpms_customer_manage_formal
+    </select>
+    <select id="selectFetchSize"  resultType="bpmsCustomerManageFormalEntity" resultSetType="FORWARD_ONLY"  fetchSize="-2147483648">
+        SELECT * FROM bpms_customer_manage_formal
+    </select>
+    <select id="selectFetchSize2"  resultType="bpmsCustomerManageFormalEntity" fetchSize="-2147483648">
+        SELECT * FROM bpms_customer_manage_formal
+    </select>
+
+</mapper>
